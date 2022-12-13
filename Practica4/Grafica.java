@@ -1,6 +1,7 @@
 import java.util.LinkedList;
 import java.lang.Comparable;
 import java.util.ListIterator;
+import java.util.Collections;
 /**
  * Clase para modelar las graficas
  */
@@ -108,7 +109,64 @@ public class Grafica{
 
 	return elementosS + "\n\n" + aristasS;
     }
+
+
+
+    /**
+     * Metodo que ordena todas las aristas de la grafica de menor a mayor
+     * Metodo auxiliar para implementar Kruskal
+     */
+    private void sortAristas(){
+	Collections.sort(this.aristas);
+    }
+
+    ///////////////////////////////////////////////Cambiar a private
+    /**
+     * Metodo auxiliar para kruskal
+     */
+    public DisjointSets conjuntoElementos(){
+	DisjointSets conjunto = new DisjointSets();
+	for(String s : this.elementos)conjunto.addSet(s);
+	return conjunto;
+    }
+
+    /**
+     * Crea una grafica con los mismos elementos
+     * Metodo auxiliar para Kruskal
+     */
+    private Grafica cloneGraficaElementos(){
+	Grafica g = new Grafica();
+	for(String s : this.elementos){
+	    g.addElemento(s);
+	}
+	return g;
+    }
     
+    /**
+     * Se implementa kruskal como un algoritmo no destructivo
+     * 
+     */
+    public Grafica kruskal(){
+	this.sortAristas();
+	DisjointSets conjunto = this.conjuntoElementos();
+	ListIterator<Arista> ite = this.aristas.listIterator(0);
+	Grafica mst = this.cloneGraficaElementos();
+	while(ite.hasNext()){
+	    Arista aristaProcesando = ite.next();
+	    String ele1 = aristaProcesando.elemento1;
+	    String ele2 = aristaProcesando.elemento2;
+	    if(!conjunto.sameSet(ele1, ele2)){
+		conjunto.join(ele1, ele2);
+		mst.addArista(ele1, aristaProcesando.peso, ele2);
+	    }
+	    conjunto.print();
+	    System.out.println();
+	}
+
+	return mst;
+        
+	
+    }
 
 
 

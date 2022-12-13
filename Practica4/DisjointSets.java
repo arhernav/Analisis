@@ -58,7 +58,7 @@ public class DisjointSets{
 	 * @return Nodo - Nodo representante de la clase
 	 */
 	protected Nodo getRepresentante(){
-	    if(this == this.padre) return this;
+	    if(this.padre == this)return this;
 	    return this.padre.getRepresentante();
 	}
 
@@ -70,6 +70,18 @@ public class DisjointSets{
 	@Override
 	public String toString(){
 	    return this.nombre + ": tamaño = " + this.tamaño + ", padre = " + this.padre.nombre + ", representante: " + this.getRepresentante().nombre;
+	}
+	
+	/**
+	 * Metod para recalcular el tamaño tras el join
+	 * 
+	 */
+	private void recalTamaño(){
+	    if(this.padre == this){
+		this.tamaño++;
+		return;
+	    }
+	    this.padre.tamaño = this.tamaño++;
 	}
 	
     }
@@ -106,6 +118,12 @@ public class DisjointSets{
 	return n.getRepresentante().getNombre();
     }
 
+    protected boolean sameSet(String elemento1, String elemento2){
+	Nodo n1 = set.get(elemento1);
+	Nodo n2 = set.get(elemento2);
+	return n1.getRepresentante() == n2.getRepresentante();
+    }
+
     /**
      * Metodo para unir dos elementos a una clase
      * Se realiza union por tamaño
@@ -119,16 +137,17 @@ public class DisjointSets{
 	}
 	Nodo n1 = set.get(s1);
 	Nodo n2 = set.get(s2);
-	if(n1.getRepresentante() == n2.getRepresentante())return;
-	if(n1.tamaño < n2.tamaño){
-	    n1.padre = n2;
-	    n2.tamaño += n1.tamaño;
-	    return;
+	Nodo n1rep = n1.getRepresentante();
+	Nodo n2rep = n2.getRepresentante();
+	if(n1rep.tamaño >= n2rep.tamaño){
+	    if(n1rep.tamaño == n2rep.tamaño){
+		n1rep.tamaño += 1;
+	    }
+	    n2rep.padre = n1rep;
+	}else{
+	    n1rep.padre = n2rep;
 	}
-	n2.padre = n1;
-	n1.tamaño += n2.tamaño;
-	
     }
-
+    
     
 }
