@@ -5,7 +5,7 @@
 public class Main{
 
     public static void main(String args[]){
-
+	
 	Grafica graf = new Grafica();
 
 	graf.addElemento("a");
@@ -39,9 +39,13 @@ public class Main{
 	System.out.println(graf);
 
 	Grafica mst = graf.kruskal();
+	
 
 	System.out.println();
 	System.out.println(mst);
+
+	System.out.println();
+	System.out.println(mst.getPesoYAristas());
 	
 	/*
         	con.print();

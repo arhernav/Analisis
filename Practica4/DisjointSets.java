@@ -72,17 +72,6 @@ public class DisjointSets{
 	    return this.nombre + ": tamaño = " + this.tamaño + ", padre = " + this.padre.nombre + ", representante: " + this.getRepresentante().nombre;
 	}
 	
-	/**
-	 * Metod para recalcular el tamaño tras el join
-	 * 
-	 */
-	private void recalTamaño(){
-	    if(this.padre == this){
-		this.tamaño++;
-		return;
-	    }
-	    this.padre.tamaño = this.tamaño++;
-	}
 	
     }
 
@@ -118,6 +107,10 @@ public class DisjointSets{
 	return n.getRepresentante().getNombre();
     }
 
+    /**
+     * Metodo para saber si dos elementos estan en el mismo conjunto
+     * @return boolean - Verdadero si ambos elementos estan en el mismo set. Falso si no.
+     */
     protected boolean sameSet(String elemento1, String elemento2){
 	Nodo n1 = set.get(elemento1);
 	Nodo n2 = set.get(elemento2);
